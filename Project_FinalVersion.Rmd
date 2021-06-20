@@ -69,6 +69,7 @@ for (x in 1:nrow(policy)) {
 ```
 
 ```{r, echo=FALSE}
+set.seed(101)
 policy$d<-as.Date(policy$d)
 ##############################################################################################################
 ### CREATE DF WHICH TRACKS CUMULATIVE CASES OVER FIRST 200 DAYS SINCE FIRST RECORDED CASE FOR EACH COUNTRY ###
@@ -108,8 +109,8 @@ for (x in seq(2,n,2)) {
   dat.growthrates$days_restaurant_close[x/2]<-sum(policy$rest[policy$d >= dat.200days[1,x+1] & policy$d <= dat.200days[201,x+1] &policy$geoid==names(dat.200days)[x]])
  }
 }
-### OMIT CHINA OUTLIER ###################################################################################
-test.data<-dat.growthrates[-c(26, 91, 59),]
+### OMIT OUTLIER ###################################################################################
+test.data<-dat.growthrates
 ```
 
 
@@ -303,7 +304,7 @@ The linear regression model relies on several key assumptions.
 
 ```{r,echo=FALSE}
 
-
+set.seed(101)
 model_growth.rate.logistic1<-lm(data=test.data, formula=unlist(gr)~days_mask+days_testing+days_restaurant_close+days_lockdown)
 
 
